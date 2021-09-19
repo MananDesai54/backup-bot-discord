@@ -1,10 +1,11 @@
+from utils.file_operation import read_from_file, write_to_file
+from discord.abc import GuildChannel
 from utils.is_it_tester import is_it_tester
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands.bot import Bot
 from discord.ext.commands.context import Context
 from itertools import cycle
-from discord.ext.commands.core import command
 
 from discord.ext.commands.errors import CommandError
 
@@ -26,6 +27,18 @@ class BackupBotCore(commands.Cog):
         await self.client.change_presence(activity=activity)
         self.update_status.start()
         print(f"We have logged in as {self.client.user}")
+
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild: GuildChannel):
+        prefixes = read_from_file('data/prefix.json')
+        prefixes[str(guild.id)] = '>'
+        write_to_file('data/prefix.json', prefixes)
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild: GuildChannel):
+        prefixes = read_from_file('data/prefix.json')
+        prefixes.pop(str(guild.id))
+        write_to_file('data/prefix.json', prefixes)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: Context, error: CommandError):
@@ -56,6 +69,14 @@ class BackupBotCore(commands.Cog):
     @commands.check(is_it_tester)
     async def testBot(self, ctx: Context):
         await ctx.send(f"Hey, {ctx.author} only you can access this")
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def prefix(self, ctx: Context, new_prefix):
+        prefixes = read_from_file('data/prefix.json')
+        prefixes[str(ctx.guild.id)] = new_prefix
+        write_to_file('data/prefix.json', prefixes)
+        await ctx.send(f"Prefix Changed to {new_prefix}")
 
     # Tasks
     @tasks.loop(seconds=10)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import discord
+from utils.get_prefix import get_prefix
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    client = commands.Bot(command_prefix='>')
+    client = commands.Bot(command_prefix=get_prefix)
 
     # Load/Unload Cog
     # to use run `$load filename(without .py) from cogs folder`
