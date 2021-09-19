@@ -4,15 +4,15 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 from setUpMongo import connectMongoDB, Backup, Channel, Role
-from CustomHelpCommand import Help
+from CustomHelpCommand import CustomHelpCommand
 from discord.ext.commands.context import Context
-from discord.ext.commands.core import command
 
 if __name__ == "__main__":
 
     load_dotenv()
 
-    client = commands.Bot(command_prefix=get_prefix)
+    client = commands.Bot(command_prefix=get_prefix,
+                          help_command=CustomHelpCommand())
 
     # Load/Unload Cog
     # to use run `$load filename(without .py) from cogs folder`
