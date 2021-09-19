@@ -5,6 +5,8 @@ activate-env.sh
 run.sh
 .vscode
 temp.py
+bot_events.py
+bot_commands.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
