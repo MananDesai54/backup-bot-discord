@@ -35,6 +35,6 @@ if __name__ == "__main__":
         client.unload_extension(f"cogs.{extension}")
         client.load_extension(f"cogs.{extension}")
 
-    # connectMongoDB()
+    connectMongoDB()
 
     client.run(os.getenv('DISCORD_TOKEN'))

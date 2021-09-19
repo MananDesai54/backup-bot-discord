@@ -10,10 +10,15 @@ def connectMongoDB():
     print(f"Connected to the Database: {conn}")
 
 
+class Category(db.EmbeddedDocument):
+    name = db.StringField(required=True)
+    id = db.StringField(required=True)
+
+
 class Channel(db.EmbeddedDocument):
     id = db.StringField(required=True)
     name = db.StringField(required=True)
-    category = db.StringField(required=True)
+    category = db.EmbeddedDocumentField(Category)
 
 
 class Role(db.EmbeddedDocument):
@@ -23,10 +28,11 @@ class Role(db.EmbeddedDocument):
 
 
 class Backup(db.Document):
-    backupName = db.StringField()
-    textChannels = db.ListField(db.EmbeddedDocumentField(Channel))
-    voiceChannels = db.ListField(db.EmbeddedDocumentField(Channel))
-    categories = db.ListField(db.StringField())
+    name = db.StringField()
+    text_channels = db.ListField(db.EmbeddedDocumentField(Channel))
+    voice_channels = db.ListField(db.EmbeddedDocumentField(Channel))
+    stage_channels = db.ListField(db.EmbeddedDocumentField(Channel))
+    categories = db.ListField(db.EmbeddedDocumentField(Category))
     roles = db.ListField(db.EmbeddedDocumentField(Role))
 
     def to_json(self):

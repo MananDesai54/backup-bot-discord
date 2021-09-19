@@ -97,10 +97,10 @@ class BackupBotCore(commands.Cog):
                     'category_id': channel.category_id,
                     'messages': []
                 }
-                async for msg in channel.history(limit=None,
-                                                 oldest_first=True):
-                    text_data[channel.id]['messages'].append(
-                        {'content': msg.content})
+                # async for msg in channel.history(limit=None,
+                #                                  oldest_first=True):
+                #     text_data[channel.id]['messages'].append(
+                #         {'content': msg.content})
             elif isinstance(channel, discord.VoiceChannel):
                 voice_data[channel.id] = {
                     'channel_id': channel.id,
