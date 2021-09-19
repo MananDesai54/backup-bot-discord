@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    client = commands.Bot(command_prefix='$')
+    client = commands.Bot(command_prefix='>')
 
     # Load/Unload Cog
     # to use run `$load filename(without .py) from cogs folder`
